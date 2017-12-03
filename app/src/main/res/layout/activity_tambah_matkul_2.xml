@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:padding="16dp"
     android:orientation="vertical"
-    tools:context="com.meridianid.farizdotid.mahasiswaapp.activity.TambahMatkulActivity2">
+    tools:context="id.web.wachid.pms.activity.TambahMatkulActivity2">
 
     <EditText
         android:id="@+id/etNamaDosen"

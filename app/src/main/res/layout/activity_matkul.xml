@@ -8,7 +8,7 @@
     android:paddingRight="8dp"
     android:paddingLeft="8dp"
     android:orientation="vertical"
-    tools:context="com.meridianid.farizdotid.mahasiswaapp.activity.MatkulActivity">
+    tools:context="id.web.wachid.pms.activity.MatkulActivity">
 
     <Button
         android:id="@+id/btnTambahMatkul"
