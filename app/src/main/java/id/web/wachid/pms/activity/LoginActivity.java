@@ -3,12 +3,14 @@ package id.web.wachid.pms.activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import id.web.wachid.pms.R;
@@ -34,7 +36,9 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.etPassword) EditText etPassword;
     @BindView(R.id.btnLogin) Button btnLogin;
     @BindView(R.id.btnRegister) Button btnRegister;
+    //@BindView(R.id.loginLayout) RelativeLayout loginLayout;
     ProgressDialog loading;
+    //AnimationDrawable animationDrawable;
 
     Context mContext;
     BaseApiService mApiService;
@@ -49,6 +53,14 @@ public class LoginActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
         mContext = this;
+
+        // kodingan untuk membuat animasi backgroudnnya bergerak
+    //    animationDrawable = (AnimationDrawable) loginLayout.getBackground();
+    //    animationDrawable.setEnterFadeDuration(3000);
+    //    animationDrawable.setExitFadeDuration(3000);
+    //    animationDrawable.start();
+
+
         mApiService = UtilsApi.getAPIService(); // meng-init yang ada di package apihelper
         sharedPrefManager = new SharedPrefManager(this);
 
