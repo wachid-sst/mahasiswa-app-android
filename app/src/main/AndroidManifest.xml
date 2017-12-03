@@ -19,7 +19,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.RegisterActivity" />
-        <activity android:name=".activity.MainActivity" />
+        <activity android:name=".activity.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
         <activity android:name=".activity.DosenActivity" />
         <activity android:name=".activity.MatkulActivity" />
         <activity android:name=".activity.TambahMatkulActivity" />

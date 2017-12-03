@@ -1,93 +1,96 @@
 package id.web.wachid.pms.activity;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
 
-import id.web.wachid.pms.fragment.AddFragment;
+import android.app.FragmentTransaction;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
+
+import id.web.wachid.pms.R;
 import id.web.wachid.pms.fragment.FavoriteFragment;
 import id.web.wachid.pms.fragment.HomeFragment;
-import id.web.wachid.pms.R;
 import id.web.wachid.pms.fragment.ProfileFragment;
-import id.web.wachid.pms.fragment.SearchFragment;
-import id.web.wachid.pms.util.SharedPrefManager;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import id.web.wachid.pms.fragment.SettingFragment;
 
 public class MainActivity extends AppCompatActivity {
 
-
-
-    @BindView(R.id.ivHome)
-    ImageView ivHome;
-    @BindView(R.id.ivSearh)
-    ImageView ivSearch;
-    @BindView(R.id.ivAdd)
-    ImageView ivAdd;
-    @BindView(R.id.ivFavorite)
-    ImageView ivFavorite;
-    @BindView(R.id.ivProfile)
-    ImageView ivProfile;
-
-    @BindView(R.id.frameFragment)
-    FrameLayout frameFragment;
-
-    SharedPrefManager sharedPrefManager;
+    private BottomNavigationView mBottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-        ButterKnife.bind(this);
+        setupBottomNavigation();
 
-        initFragment(new HomeFragment());
+        if (savedInstanceState == null) {
 
+            loadHomeFragment();
+        }
 
-        ivHome.setOnClickListener(new View.OnClickListener() {
+    }
+
+    private void setupBottomNavigation() {
+
+        mBottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+
+        mBottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void onClick(View view) {
-                initFragment(new HomeFragment());
-            }
-        });
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-        ivSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                initFragment(new SearchFragment());
-            }
-        });
-
-        ivAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                initFragment(new AddFragment());
-            }
-        });
-
-        ivFavorite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                initFragment(new FavoriteFragment());
-            }
-        });
-
-        ivProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                initFragment(new ProfileFragment());
+                switch (item.getItemId()) {
+                    case R.id.action_home:
+                        loadHomeFragment();
+                        return true;
+                    case R.id.action_favorite:
+                        loadFavoriteFragment();
+                        return true;
+                    case R.id.action_profile:
+                        loadProfileFragment();
+                        return true;
+                    case R.id.action_settings:
+                        loadSettingsFragment();
+                        return true;
+                }
+                return false;
             }
         });
     }
 
-    private void initFragment(Fragment classFragment) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.frameFragment, classFragment);
-        transaction.commit();
+    private void loadHomeFragment() {
+
+        HomeFragment fragment = HomeFragment.newInstance();
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.replace(R.id.fragment_frame, fragment);
+        ft.commit();
+    }
+
+    private void loadFavoriteFragment() {
+
+        FavoriteFragment fragment = FavoriteFragment.newInstance();
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.replace(R.id.fragment_frame, fragment);
+        ft.commit();
+    }
+
+    private void loadProfileFragment() {
+
+        ProfileFragment fragment = ProfileFragment.newInstance();
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.replace(R.id.fragment_frame, fragment);
+        ft.commit();
+    }
+
+    private void loadSettingsFragment() {
+
+        SettingFragment fragment = SettingFragment.newInstance();
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.replace(R.id.fragment_frame, fragment);
+        ft.commit();
     }
 }
