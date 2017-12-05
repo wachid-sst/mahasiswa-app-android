@@ -7,4 +7,5 @@
     <string name="text_profile">profile</string>
     <string name="text_home">home</string>
     <string name="text_favorite">favorite</string>
+    <string name="action_settings">Settings</string>
 </resources>
