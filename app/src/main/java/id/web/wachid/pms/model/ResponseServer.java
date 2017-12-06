@@ -3,10 +3,10 @@ package id.web.wachid.pms.model;
 import java.util.List;
 import com.google.gson.annotations.SerializedName;
 
-public class ResponseMatkul{
+public class ResponseServer {
 
 	@SerializedName("semuamatkul")
-	private List<SemuamatkulItem> semuamatkul;
+	private List<SemuaServerItem> semuamatkul;
 
 	@SerializedName("error")
 	private boolean error;
@@ -14,11 +14,11 @@ public class ResponseMatkul{
 	@SerializedName("message")
 	private String message;
 
-	public void setSemuamatkul(List<SemuamatkulItem> semuamatkul){
+	public void setSemuamatkul(List<SemuaServerItem> semuamatkul){
 		this.semuamatkul = semuamatkul;
 	}
 
-	public List<SemuamatkulItem> getSemuamatkul(){
+	public List<SemuaServerItem> getSemuamatkul(){
 		return semuamatkul;
 	}
 
@@ -41,7 +41,7 @@ public class ResponseMatkul{
 	@Override
  	public String toString(){
 		return 
-			"ResponseMatkul{" + 
+			"ResponseServer{" +
 			"semuamatkul = '" + semuamatkul + '\'' + 
 			",error = '" + error + '\'' + 
 			",message = '" + message + '\'' + 

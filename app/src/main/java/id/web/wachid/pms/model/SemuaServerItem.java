@@ -2,7 +2,7 @@ package id.web.wachid.pms.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class SemuamatkulItem{
+public class SemuaServerItem {
 
 	@SerializedName("nama_dosen")
 	private String namaDosen;
@@ -17,7 +17,7 @@ public class SemuamatkulItem{
 		this.namaDosen = namaDosen;
 	}
 
-	public String getNamaDosen(){
+	public String getNamaServer(){
 		return namaDosen;
 	}
 
@@ -33,14 +33,14 @@ public class SemuamatkulItem{
 		this.matkul = matkul;
 	}
 
-	public String getMatkul(){
+	public String getIpServer(){
 		return matkul;
 	}
 
 	@Override
  	public String toString(){
 		return 
-			"SemuamatkulItem{" + 
+			"SemuaServerItem{" +
 			"nama_dosen = '" + namaDosen + '\'' + 
 			",id = '" + id + '\'' + 
 			",matkul = '" + matkul + '\'' + 

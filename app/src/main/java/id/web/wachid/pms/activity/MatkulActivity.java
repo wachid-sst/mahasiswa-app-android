@@ -1,5 +1,10 @@
 package id.web.wachid.pms.activity;
 
+/**
+ * Created by command center on 12/6/2017.
+ */
+
+
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -13,20 +18,21 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import id.web.wachid.pms.R;
-import id.web.wachid.pms.adapter.MatkulAdapter;
-import id.web.wachid.pms.model.ResponseMatkul;
-import id.web.wachid.pms.model.SemuamatkulItem;
-import id.web.wachid.pms.util.Constant;
-import id.web.wachid.pms.util.RecyclerItemClickListener;
-import id.web.wachid.pms.util.api.BaseApiService;
-import id.web.wachid.pms.util.api.UtilsApi;
+
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import id.web.wachid.pms.R;
+import id.web.wachid.pms.adapter.ServerAdapter;
+import id.web.wachid.pms.model.ResponseServer;
+import id.web.wachid.pms.model.SemuaServerItem;
+import id.web.wachid.pms.util.Constant;
+import id.web.wachid.pms.util.RecyclerItemClickListener;
+import id.web.wachid.pms.util.api.BaseApiService;
+import id.web.wachid.pms.util.api.UtilsApi;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -42,8 +48,8 @@ public class MatkulActivity extends AppCompatActivity {
     ProgressDialog loading;
 
     Context mContext;
-    List<SemuamatkulItem> semuamatkulItemList = new ArrayList<>();
-    MatkulAdapter matkulAdapter;
+    ArrayList<SemuaServerItem> semuaServerItem = new ArrayList<>();
+    ServerAdapter serverAdapter;
     BaseApiService mApiService;
 
     @Override
@@ -57,7 +63,7 @@ public class MatkulActivity extends AppCompatActivity {
         mApiService = UtilsApi.getAPIService();
         mContext = this;
 
-        matkulAdapter = new MatkulAdapter(this, semuamatkulItemList);
+        serverAdapter = new ServerAdapter(this, semuaServerItem);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         rvMatkul.setLayoutManager(mLayoutManager);
         rvMatkul.setItemAnimator(new DefaultItemAnimator());
@@ -75,19 +81,19 @@ public class MatkulActivity extends AppCompatActivity {
     private void getDataMatkul(){
         loading = ProgressDialog.show(mContext, null, "Harap Tunggu...", true, false);
 
-        mApiService.getSemuaMatkul().enqueue(new Callback<ResponseMatkul>() {
+        mApiService.getSemuaServer().enqueue(new Callback<ResponseServer>() {
             @Override
-            public void onResponse(Call<ResponseMatkul> call, Response<ResponseMatkul> response) {
+            public void onResponse(Call<ResponseServer> call, Response<ResponseServer> response) {
                 if (response.isSuccessful()) {
                     loading.dismiss();
                     if (response.body().isError()) {
                         tvBelumMatkul.setVisibility(View.VISIBLE);
                     } else {
-                        final List<SemuamatkulItem> semuamatkulItems = response.body().getSemuamatkul();
-                        rvMatkul.setAdapter(new MatkulAdapter(mContext, semuamatkulItems));
-                        matkulAdapter.notifyDataSetChanged();
+                        final List<SemuaServerItem> semuaServerItems = response.body().getSemuamatkul();
+                        rvMatkul.setAdapter(new ServerAdapter(mContext, semuaServerItem));
+                        serverAdapter.notifyDataSetChanged();
 
-                        initDataIntent(semuamatkulItems);
+                        initDataIntent(semuaServerItems);
                     }
                 } else {
                     loading.dismiss();
@@ -96,20 +102,20 @@ public class MatkulActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<ResponseMatkul> call, Throwable t) {
+            public void onFailure(Call<ResponseServer> call, Throwable t) {
                 loading.dismiss();
                 Toast.makeText(mContext, "Koneksi internet bermasalah", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    private void initDataIntent(final List<SemuamatkulItem> matkulList){
+    private void initDataIntent(final List<SemuaServerItem> matkulList){
         rvMatkul.addOnItemTouchListener(
                 new RecyclerItemClickListener(mContext, new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
                         String id = matkulList.get(position).getId();
-                        String namadosen = matkulList.get(position).getNamaDosen();
-                        String matkul = matkulList.get(position).getMatkul();
+                        String namadosen = matkulList.get(position).getNamaServer();
+                        String matkul = matkulList.get(position).getIpServer();
 
                         Intent detailMatkul = new Intent(mContext, MatkulDetailActivity.class);
                         detailMatkul.putExtra(Constant.KEY_ID_MATKUL, id);

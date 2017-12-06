@@ -2,7 +2,7 @@ package id.web.wachid.pms.util.api;
 
 import id.web.wachid.pms.model.ResponseDosen;
 import id.web.wachid.pms.model.ResponseDosenDetail;
-import id.web.wachid.pms.model.ResponseMatkul;
+import id.web.wachid.pms.model.ResponseServer;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -40,7 +40,7 @@ public interface BaseApiService {
     Call<ResponseDosenDetail> getDetailDosen(@Path("namadosen") String namadosen);
 
     @GET("matkul")
-    Call<ResponseMatkul> getSemuaMatkul();
+    Call<ResponseServer> getSemuaServer();
 
     @FormUrlEncoded
     @POST("matkul")
