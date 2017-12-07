@@ -13,10 +13,13 @@ import android.widget.TextView;
 import android.widget.Filter;
 import android.widget.Filterable;
 
+import com.amulyakhare.textdrawable.TextDrawable;
+
 import id.web.wachid.pms.R;
 import id.web.wachid.pms.model.SemuaServerItem;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import butterknife.BindView;
@@ -32,8 +35,8 @@ import butterknife.ButterKnife;
 public class ServerAdapter extends RecyclerView.Adapter<ServerAdapter.ViewHolder> implements Filterable {
 
     private Context mContext;
-    private  ArrayList<SemuaServerItem> serverList;
-    private  ArrayList<SemuaServerItem> serverListFiltered;
+    private  List<SemuaServerItem> serverList;
+    private  List<SemuaServerItem> serverListFiltered;
   //  ServerAdapterListener listener;
 
     public String[] mColors = {
@@ -52,11 +55,11 @@ public class ServerAdapter extends RecyclerView.Adapter<ServerAdapter.ViewHolder
             "#b7c0c7"  // light gray
     };
 
-    public ServerAdapter(Context context, ArrayList<SemuaServerItem> arrayList) {
+    public ServerAdapter(Context context, List<SemuaServerItem> serverList) {
          this.mContext = context;
        // this.listener = listener;
-        this.serverList = arrayList;
-        this.serverListFiltered = arrayList;
+        this.serverList = serverList;
+        this.serverListFiltered = serverList;
     }
 
     @Override
@@ -74,11 +77,11 @@ public class ServerAdapter extends RecyclerView.Adapter<ServerAdapter.ViewHolder
        // holder.tvNamaServer.setText(mFilteredList.get(position).getNamaServer());
       //  holder.tvIpServer.setText(mFilteredList.get(position).getIpServer());
 
-/*        String namaServer = serverListFiltered.get(position).getNamaServer();
+        String namaServer = serverListFiltered.get(position).getNamaServer();
         String firstCharNamaServer = namaServer.substring(0,1);
         TextDrawable drawable = TextDrawable.builder()
                 .buildRound(firstCharNamaServer, getColor());
-        viewHolder.ivTextDrawable.setImageDrawable(drawable);*/
+        viewHolder.ivTextDrawable.setImageDrawable(drawable);
     }
 
     @Override
@@ -132,6 +135,7 @@ public class ServerAdapter extends RecyclerView.Adapter<ServerAdapter.ViewHolder
                         // here we are looking for name or phone number match
                         if (row.getNamaServer().toLowerCase().contains(charString.toLowerCase()) || row.getIpServer().toLowerCase().contains(charString.toLowerCase())) {
                             filteredList.add(row);
+                            Log.d("logging semuaServer ", String.valueOf(row));
                         }
                     }
 

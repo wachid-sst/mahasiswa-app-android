@@ -78,6 +78,8 @@ public class ServerFragment_backup extends Fragment {
                 mArrayList = new ArrayList<>(Arrays.asList(jsonResponse.getAndroid()));
                 mAdapter = new DataAdapter(mArrayList);
                 mRecyclerView.setAdapter(mAdapter);
+
+                Log.d("log", String.valueOf(mArrayList));
             }
 
             @Override

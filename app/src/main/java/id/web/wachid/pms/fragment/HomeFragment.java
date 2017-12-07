@@ -55,6 +55,7 @@ public class HomeFragment extends Fragment {
     ServerAdapter serverAdapter;
     BaseApiService mApiService;
 
+
     private SearchView searchView;
 
     public static HomeFragment newInstance() {
@@ -74,7 +75,7 @@ public class HomeFragment extends Fragment {
         mApiService = UtilsApi.getAPIService();
         mContext = getActivity();
 
-        serverAdapter = new ServerAdapter(getActivity(), semuaServerItem);
+      //  serverAdapter = new ServerAdapter(getActivity(), semuaServerItem);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         rvServer.setLayoutManager(mLayoutManager);
         rvServer.setItemAnimator(new DefaultItemAnimator());
@@ -107,12 +108,15 @@ public class HomeFragment extends Fragment {
                         tvBelumServer.setVisibility(View.VISIBLE);
                     } else {
                         final List<SemuaServerItem> semuaServerItems = response.body().getSemuamatkul();
-                        rvServer.setAdapter(new ServerAdapter(mContext, semuaServerItem));
+                        serverAdapter = new ServerAdapter(mContext, semuaServerItems);
+                        rvServer.setAdapter(serverAdapter);
                         serverAdapter.notifyDataSetChanged();
 
                         initDataIntent(semuaServerItems);
 
-                        Log.d("log", "message");
+                        Log.d("log", String.valueOf(semuaServerItems));
+                        Log.d("log", String.valueOf(semuaServerItem));
+
                     }
                 } else {
                     loading.dismiss();
