@@ -1,10 +1,9 @@
 package id.web.wachid.pms.fragment;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import id.web.wachid.pms.R;
 import id.web.wachid.pms.activity.MatkulDetailActivity;
-import id.web.wachid.pms.adapter.ServerAdapter;
+import id.web.wachid.pms.adapter.RvServerAdapter;
+import id.web.wachid.pms.listener.RecyclerTouchListener;
 import id.web.wachid.pms.model.ResponseServer;
 import id.web.wachid.pms.model.SemuaServerItem;
 import id.web.wachid.pms.util.Constant;
@@ -42,17 +41,19 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment  {
 
-    @BindView(R.id.tvBelumMatkul)
+   // @BindView(R.id.tvBelumMatkul)
     TextView tvBelumServer;
-    @BindView(R.id.rvMatkul)
+   // @BindView(R.id.rvMatkul)
     RecyclerView rvServer;
     ProgressDialog loading;
 
     Context mContext;
-    ArrayList<SemuaServerItem> semuaServerItem = new ArrayList<>();
-    ServerAdapter serverAdapter;
+   // ArrayList<SemuaServerItem> semuaServerItem = new ArrayList<>();
+
+    private List<SemuaServerItem> semuaServerItem;
+    private RvServerAdapter serverAdapter;
     BaseApiService mApiService;
 
 
@@ -68,24 +69,57 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        View v = inflater.inflate(R.layout.fragment_home, container, false);
+
+        // toolbar fancy stuff
+        //((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("SemuaServerItem List");
 
-        ButterKnife.bind(this, view);
+       // ButterKnife.bind(this, view);
+
+        rvServer = (RecyclerView) v.findViewById(R.id.rvServer);
+        tvBelumServer = (TextView) v.findViewById(R.id.tvBelumMatkul);
+
         mApiService = UtilsApi.getAPIService();
         mContext = getActivity();
 
-      //  serverAdapter = new ServerAdapter(getActivity(), semuaServerItem);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+        semuaServerItem = new ArrayList<>();
+       // serverAdapter = new RvServerAdapter(mContext, semuaServerItem,this);
+
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext);
         rvServer.setLayoutManager(mLayoutManager);
         rvServer.setItemAnimator(new DefaultItemAnimator());
+       // rvServer.setAdapter(serverAdapter);
+       // serverAdapter.setOnClick((RvServerAdapter.OnItemClicked) mContext);
 
+
+        /*rvServer.addOnItemTouchListener(new RecyclerTouchListener(getActivity(), rvServer, new RecyclerTouchListener.ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+               Log.d("log",  semuaServerItem.get(position).getNamaServer());
+
+
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        }));
+*/
         getDataServer();
 
-        return view;
+
+
+
+
+        return v;
+
+
 
         //((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Mata Kuliah");
     }
+
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -108,11 +142,11 @@ public class HomeFragment extends Fragment {
                         tvBelumServer.setVisibility(View.VISIBLE);
                     } else {
                         final List<SemuaServerItem> semuaServerItems = response.body().getSemuamatkul();
-                        serverAdapter = new ServerAdapter(mContext, semuaServerItems);
+                        serverAdapter = new RvServerAdapter(mContext, semuaServerItems);
                         rvServer.setAdapter(serverAdapter);
                         serverAdapter.notifyDataSetChanged();
 
-                        initDataIntent(semuaServerItems);
+                        //initDataIntent(semuaServerItems);
 
                         Log.d("log", String.valueOf(semuaServerItems));
                         Log.d("log", String.valueOf(semuaServerItem));
@@ -157,6 +191,8 @@ public class HomeFragment extends Fragment {
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(search);
         search(searchView);
        // return true;
+
+
     }
 
 

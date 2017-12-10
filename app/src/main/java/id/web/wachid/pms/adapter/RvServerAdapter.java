@@ -16,14 +16,12 @@ import android.widget.Filterable;
 import com.amulyakhare.textdrawable.TextDrawable;
 
 import id.web.wachid.pms.R;
+import id.web.wachid.pms.fragment.HomeFragment;
 import id.web.wachid.pms.model.SemuaServerItem;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * Created by wachid.sst
@@ -32,12 +30,13 @@ import butterknife.ButterKnife;
  */
 
 
-public class ServerAdapter extends RecyclerView.Adapter<ServerAdapter.ViewHolder> implements Filterable {
+public class RvServerAdapter extends RecyclerView.Adapter<RvServerAdapter.MyViewHolder> implements Filterable {
 
     private Context mContext;
     private  List<SemuaServerItem> serverList;
     private  List<SemuaServerItem> serverListFiltered;
-  //  ServerAdapterListener listener;
+   // private ServerAdapterListener listener;
+
 
     public String[] mColors = {
             "#39add1", // light blue
@@ -55,27 +54,69 @@ public class ServerAdapter extends RecyclerView.Adapter<ServerAdapter.ViewHolder
             "#b7c0c7"  // light gray
     };
 
-    public ServerAdapter(Context context, List<SemuaServerItem> serverList) {
-         this.mContext = context;
-       // this.listener = listener;
+
+
+    public RvServerAdapter(Context context, List<SemuaServerItem> serverList ) {
+        this.mContext = context;
+       //   this.listener = listener;
         this.serverList = serverList;
         this.serverListFiltered = serverList;
     }
 
-    @Override
-    public ServerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_server, parent, false);
-        return new ViewHolder(itemView);
+    public class MyViewHolder extends RecyclerView.ViewHolder{
+
+        // @BindView(R.id.ivTextDrawable)
+        ImageView ivTextDrawable;
+        // @BindView(R.id.tvNamaDosen)
+        TextView tvNamaServer;
+        // @BindView(R.id.tvNamaMatkul)
+        TextView tvIpServer;
+
+        public MyViewHolder(View itemView) {
+            super(itemView);
+
+            //  ButterKnife.bind(this, itemView);
+
+            tvNamaServer = (TextView) itemView.findViewById(R.id.tvNamaDosen);
+            tvIpServer = (TextView) itemView.findViewById(R.id.tvNamaMatkul);
+            ivTextDrawable = (ImageView) itemView.findViewById(R.id.ivTextDrawable);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View itemView) {
+                    // send selected contact in callback
+                  //  listener.onServerSelected(serverListFiltered.get(getAdapterPosition()));
+
+                    Log.d("log ", String.valueOf(getAdapterPosition()));
+
+
+                    Log.d("log ", String.valueOf(serverListFiltered.get(getAdapterPosition())));
+                }
+            });
+
+
+        }
     }
 
     @Override
-    public void onBindViewHolder(ServerAdapter.ViewHolder viewHolder, int position) {
-        //final SemuaServerItem server = serverListFiltered.get(position);
-        viewHolder.tvNamaServer.setText(serverListFiltered.get(position).getNamaServer());
-        viewHolder.tvIpServer.setText(serverListFiltered.get(position).getIpServer());
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_server, parent, false);
+        return new MyViewHolder(itemView);
+    }
+
+
+
+    @Override
+    public void onBindViewHolder(RvServerAdapter.MyViewHolder viewHolder, final int position) {
+        final SemuaServerItem server = serverListFiltered.get(position);
+        viewHolder.tvNamaServer.setText(server.getNamaServer());
+        viewHolder.tvIpServer.setText(server.getIpServer());
 
        // holder.tvNamaServer.setText(mFilteredList.get(position).getNamaServer());
       //  holder.tvIpServer.setText(mFilteredList.get(position).getIpServer());
+
+
 
         String namaServer = serverListFiltered.get(position).getNamaServer();
         String firstCharNamaServer = namaServer.substring(0,1);
@@ -105,30 +146,10 @@ public class ServerAdapter extends RecyclerView.Adapter<ServerAdapter.ViewHolder
                     serverListFiltered = serverList;
                     Log.d("logging filter ", "filter empty");
 
-                } /*else {
-
+                } else {
                     Log.d("logging filter ", "else ! filter empty");
 
-                  //  List<SemuaServerItem> filteredList = new ArrayList<>();
-
-                    for (SemuaServerItem semuaServer : mArrayList) {
-
-                        Log.d("logging filter ", "for if ...");
-
-                        if (semuaServer.getNamaServer().toLowerCase().contains(charString) || semuaServer.getIpServer().toLowerCase().contains(charString) ) {
-
-                         //   filteredList.add(semuaServer);
-
-                            Log.d("logging semuaServer ", String.valueOf(semuaServer));
-                        }
-                    }
-
-                 //   mFilteredList = filteredList;*/
-
-                else {
-                    Log.d("logging filter ", "else ! filter empty");
-
-                    ArrayList<SemuaServerItem> filteredList = new ArrayList<>();
+                    List<SemuaServerItem> filteredList = new ArrayList<>();
                     for (SemuaServerItem row : serverList) {
                         Log.d("logging filter ", "for if ...");
                         // name match condition. this might differ depending on your requirement
@@ -156,21 +177,8 @@ public class ServerAdapter extends RecyclerView.Adapter<ServerAdapter.ViewHolder
         };
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
 
-        @BindView(R.id.ivTextDrawable)
-        ImageView ivTextDrawable;
-        @BindView(R.id.tvNamaDosen)
-        TextView tvNamaServer;
-        @BindView(R.id.tvNamaMatkul)
-        TextView tvIpServer;
 
-        public ViewHolder(View itemView) {
-            super(itemView);
-
-            ButterKnife.bind(this, itemView);
-        }
-    }
 
     public int getColor() {
         String color;
@@ -184,4 +192,6 @@ public class ServerAdapter extends RecyclerView.Adapter<ServerAdapter.ViewHolder
 
         return colorAsInt;
     }
+
+
 }

@@ -26,7 +26,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.web.wachid.pms.R;
-import id.web.wachid.pms.adapter.ServerAdapter;
+import id.web.wachid.pms.adapter.RvServerAdapter;
 import id.web.wachid.pms.model.ResponseServer;
 import id.web.wachid.pms.model.SemuaServerItem;
 import id.web.wachid.pms.util.Constant;
@@ -43,13 +43,13 @@ public class MatkulActivity extends AppCompatActivity {
     Button btnTambahMatkul;
     @BindView(R.id.tvBelumMatkul)
     TextView tvBelumMatkul;
-    @BindView(R.id.rvMatkul)
+    @BindView(R.id.rvServer)
     RecyclerView rvMatkul;
     ProgressDialog loading;
 
     Context mContext;
     ArrayList<SemuaServerItem> semuaServerItem = new ArrayList<>();
-    ServerAdapter serverAdapter;
+    RvServerAdapter serverAdapter;
     BaseApiService mApiService;
 
     @Override
@@ -63,7 +63,7 @@ public class MatkulActivity extends AppCompatActivity {
         mApiService = UtilsApi.getAPIService();
         mContext = this;
 
-        serverAdapter = new ServerAdapter(this, semuaServerItem);
+        serverAdapter = new RvServerAdapter(this, semuaServerItem);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         rvMatkul.setLayoutManager(mLayoutManager);
         rvMatkul.setItemAnimator(new DefaultItemAnimator());
@@ -90,10 +90,10 @@ public class MatkulActivity extends AppCompatActivity {
                         tvBelumMatkul.setVisibility(View.VISIBLE);
                     } else {
                         final List<SemuaServerItem> semuaServerItems = response.body().getSemuamatkul();
-                        rvMatkul.setAdapter(new ServerAdapter(mContext, semuaServerItem));
+                        rvMatkul.setAdapter(new RvServerAdapter(mContext, semuaServerItem));
                         serverAdapter.notifyDataSetChanged();
 
-                        initDataIntent(semuaServerItems);
+                      //  initDataIntent(semuaServerItems);
                     }
                 } else {
                     loading.dismiss();

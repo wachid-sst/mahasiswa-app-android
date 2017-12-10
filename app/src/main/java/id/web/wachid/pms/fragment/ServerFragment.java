@@ -20,24 +20,18 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import id.web.wachid.pms.R;
 import id.web.wachid.pms.adapter.DataAdapter;
-import id.web.wachid.pms.adapter.ServerAdapter;
-import id.web.wachid.pms.model.AndroidVersion;
+import id.web.wachid.pms.adapter.RvServerAdapter;
 import id.web.wachid.pms.model.ResponseServer;
 import id.web.wachid.pms.model.SemuaServerItem;
 import id.web.wachid.pms.util.api.BaseApiService;
-import id.web.wachid.pms.util.api.JSONResponse;
-import id.web.wachid.pms.util.api.RequestInterface;
 import id.web.wachid.pms.util.api.UtilsApi;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ServerFragment extends Fragment {
 
@@ -65,7 +59,7 @@ public class ServerFragment extends Fragment {
 
         mApiService = UtilsApi.getAPIService();
 
-        //mAdapter = new ServerAdapter(this, semuaServerItem);
+        //mAdapter = new RvServerAdapter(this, semuaServerItem);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.card_recycler_view);
         mRecyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -120,7 +114,7 @@ public class ServerFragment extends Fragment {
                     } else {
                         final List<SemuaServerItem> semuaServerItems = response.body().getSemuamatkul();
                         Log.d("log", String.valueOf(semuaServerItems));
-                        mRecyclerView.setAdapter(new ServerAdapter(mContext, mArrayList));
+                        mRecyclerView.setAdapter(new RvServerAdapter(mContext, mArrayList));
                         mAdapter.notifyDataSetChanged();
 
                       //  initDataIntent(semuaServerItems);
